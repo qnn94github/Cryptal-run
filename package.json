@@ -1,0 +1,31 @@
+{
+	"name": "cryptal_run",
+	"version": "1.0.0",
+	"description": "TypeScript, Phaser 3",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack",
+		"start": "webpack --watch & live-server --port=8085"
+	},
+	"repository": {
+		"type": "git",
+		"url": "Cryptal_run"
+	},
+	"keywords": [
+		"TypeScript",
+		"Phaser",
+		"3",
+		"Cryptal"
+	],
+	"author": "IQN",
+	"license": "ISC",
+	"devDependencies": {
+		"live-server": "^1.2.2",
+		"phaser": "^3.55.2",
+		"ts-loader": "^9.3.0",
+		"typescript": "^4.7.3",
+		"webpack": "^5.73.0",
+		"webpack-cli": "^4.10.0"
+	}
+}
