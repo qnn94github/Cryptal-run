@@ -21,6 +21,10 @@
 	"author": "IQN",
 	"license": "ISC",
 	"devDependencies": {
+		"@rollup/plugin-alias": "^3.1.9",
+		"@rollup/plugin-commonjs": "^22.0.0",
+		"@rollup/plugin-replace": "^4.0.0",
+		"@types/node": "^17.0.31",
 		"live-server": "^1.2.2",
 		"phaser": "^3.55.2",
 		"ts-loader": "^9.3.0",
