@@ -3,6 +3,7 @@ import Dino from "../objects/Dino";
 
 export default class GameScene extends Phaser.Scene {
 	daytime = ["night", "noon", "sunrise", "sunset"];
+
 	background!: Phaser.GameObjects.TileSprite;
 	land!: Phaser.GameObjects.TileSprite;
 	overViewFirst!: Phaser.GameObjects.TileSprite;
@@ -10,6 +11,7 @@ export default class GameScene extends Phaser.Scene {
 	overViewThird!: Phaser.GameObjects.TileSprite;
 	overViewFourth!: Phaser.GameObjects.TileSprite;
 	dino!: Dino;
+	platform!: Phaser.Physics.Arcade.StaticGroup;
 
 	constructor() {
 		super({
@@ -29,9 +31,12 @@ export default class GameScene extends Phaser.Scene {
 		this.background = this.add
 			.tileSprite(0, 0, 1900, 640, `${dayTimeRandom}-bg`)
 			.setOrigin(0);
+		this.platform = this.physics.add.staticGroup().setDepth(5);
 		this.land = this.add
 			.tileSprite(0, 250, 1900, 640, `${dayTimeRandom}-land`)
 			.setOrigin(0);
+		this.platform.create(0, 600, `${dayTimeRandom}-land`).refreshBody();
+		this.platform.add(this.land);
 		if (dayTimeRandom === "noon") {
 			this.overViewFirst = this.add.tileSprite(
 				0,
@@ -79,7 +84,7 @@ export default class GameScene extends Phaser.Scene {
 			scene: this,
 		});
 		this.dino.create();
-		this.physics.collide
+		this.physics.add.collider(this.dino, this.platform);
 	}
 	update(): void {
 		this.background.tilePositionX += 0.1;

@@ -19,11 +19,11 @@ const config: Phaser.Types.Core.GameConfig = {
 	},
 	backgroundColor: "#18216D",
 };
-export class StarfallGame extends Phaser.Game {
+export class CryptalRun extends Phaser.Game {
 	constructor(config: Phaser.Types.Core.GameConfig) {
 		super(config);
 	}
 }
 window.onload = () => {
-	let game = new StarfallGame(config);
+	let game = new CryptalRun(config);
 };

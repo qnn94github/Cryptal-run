@@ -1,5 +1,5 @@
 export default class Dino extends Phaser.GameObjects.Sprite {
-
+	dino!: Phaser.Physics.Arcade.Sprite;
 	jumpKey!: Phaser.Input.Keyboard.Key;
 	sitKey!: Phaser.Input.Keyboard.Key;
 	leftKey!: Phaser.Input.Keyboard.Key;
@@ -13,9 +13,7 @@ export default class Dino extends Phaser.GameObjects.Sprite {
 			(params.key = "dino")
 		);
 		// Phisical
-		const a = this.scene.physics.add.existing(this);
-		a.setBounce(0.2);
-		a.setCollideWorldBounds(true);
+		this.dino = this.scene.physics.add.sprite(params.x, params.y, params.key);
 		// Input
 		this.jumpKey = this.scene.input.keyboard.addKey("w");
 		this.sitKey = this.scene.input.keyboard.addKey("s");
@@ -23,51 +21,61 @@ export default class Dino extends Phaser.GameObjects.Sprite {
 		this.rightKey = this.scene.input.keyboard.addKey("d");
 	}
 	create(): void {
-		this.setScale(0.5);
-		this.setDepth(5);
-		this.scene.add.existing(this);
-		this.anims.create({
+		this.dino
+			.setScale(0.5)
+			.setDepth(5)
+			.setBounce(0.2)
+			.setCollideWorldBounds(true);
+		this.dino.body.setSize(150, 180);
+
+		this.dino.anims.create({
 			key: "walk",
 			frames: this.anims.generateFrameNumbers("dino", {}),
 			repeat: -1,
 			frameRate: 15,
 		});
-		this.anims.play("walk", true);
+		this.dino.anims.play("walk", true);
 	}
 
+
 	update(): void {
-		this.x -= 1;
-		this.anims.create({
+		this.dino.x -= 1;
+		this.dino.anims.create({
 			key: "walk",
 			frames: this.anims.generateFrameNumbers("dino", {}),
 			repeat: -1,
 			frameRate: 15,
 		});
-		this.anims.create({
+		this.dino.anims.create({
 			key: "sit",
 			frames: this.anims.generateFrameNumbers("dino-ducking", {}),
 			repeat: -1,
 			frameRate: 15,
 		});
 		if (this.leftKey.isDown) {
-			this.x -= 4;
+			this.dino.x -= 4;
 		} else if (this.rightKey.isDown) {
-			console.log(123)
-			this.x += 4;
+			this.dino.x += 4;
 		} else if (this.jumpKey.isDown) {
+			this.dino.setVelocityY(-300);
+			if (this.dino.texture.key === "dino") {
+				// this.dino.y = 670;
+				this.dino.setTexture("dino-ducking");
+				this.dino.anims.remove("walk");
+				this.dino.anims.play("sit", true);
+			}
 		} else if (this.sitKey.isDown) {
-			if (this.texture.key === "dino") {
-				this.y = 670;
-				this.setTexture("dino-ducking");
-				this.anims.remove("walk");
-				this.anims.play("sit", true);
+			if (this.dino.texture.key === "dino") {
+				this.dino.setTexture("dino-ducking");
+				this.dino.anims.remove("walk");
+				this.dino.anims.play("sit", true);
 			}
 		} else if (this.sitKey.isUp) {
-			if (this.texture.key === "dino-ducking") {
-				this.y = 650;
-				this.setTexture("dino");
-				this.anims.remove("sit");
-				this.anims.play("walk", true);
+			if (this.dino.texture.key === "dino-ducking") {
+				// this.dino.y = 650;
+				this.dino.setTexture("dino");
+				this.dino.anims.remove("sit");
+				this.dino.anims.play("walk", true);
 			}
 		}
 	}
