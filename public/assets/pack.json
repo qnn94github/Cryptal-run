@@ -158,6 +158,63 @@
 					"frameWidth": 150,
 					"frameHeight": 92
 				}
+			},
+			{
+				"type": "image",
+				"key": "cactus-small",
+				"url": "/public/assets/cactus_small.png"
+			},
+			{
+				"type": "image",
+				"key": "cactus-big",
+				"url": "/public/assets/cactus_big.png"
+			},
+			{
+				"type": "image",
+				"key": "cactus-group",
+				"url": "/public/assets/cactus_group.png"
+			},
+			{
+				"type": "spritesheet",
+				"key": "ptera",
+				"url": "/public/assets/ptera.png",
+				"frameConfig": {
+					"frameWidth": 70,
+					"frameHeight": 110
+				}
+			},
+			{
+				"type": "spritesheet",
+				"key": "diamond",
+				"url": "/public/assets/diamond.png",
+				"frameConfig": {
+					"frameWidth": 76,
+					"frameHeight": 70
+				}
+			},
+			{
+				"type": "image",
+				"key": "pc-guide",
+				"url": "/public/assets/pc_guide.png"
+			},
+			{
+				"type": "image",
+				"key": "play",
+				"url": "/public/assets/play.png"
+			},
+			{
+				"type": "spritesheet",
+				"key": "sound",
+				"url": "/public/assets/sound.png",
+				"frameConfig": {
+					"frameWidth": 50,
+					"frameHeight": 50
+				}
+			},
+			{
+				"type": "image",
+				"key": "howtoplay",
+				"url": "/public/assets/howtoplay.png"
 			}
 		]
 	}

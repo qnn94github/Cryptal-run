@@ -1,11 +1,13 @@
 import "phaser";
+import GameInit from "./scenes/GameInit";
 import GameScene from "./scenes/GameScene";
+
 
 const config: Phaser.Types.Core.GameConfig = {
 	title: "Cryptal Run",
 	width: 1900,
 	height: 900,
-	scene: [GameScene],
+	scene: [GameInit,GameScene],
 	parent: "game",
 	input: {
 		keyboard: true,
@@ -14,7 +16,7 @@ const config: Phaser.Types.Core.GameConfig = {
 		default: "arcade",
 		arcade: {
 			gravity: { y: 300 },
-			debug: false,
+			debug: true,
 		},
 	},
 	backgroundColor: "#18216D",
