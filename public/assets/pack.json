@@ -215,6 +215,29 @@
 				"type": "image",
 				"key": "howtoplay",
 				"url": "/public/assets/howtoplay.png"
+			},
+			{
+				"type": "image",
+				"key": "scoreboard",
+				"url": "/public/assets/gameover.png"
+			},
+			{
+				"type": "spritesheet",
+				"key": "replay-over",
+				"url": "/public/assets/replay_over.png",
+				"frameConfig": {
+					"frameWidth": 92,
+					"frameHeight": 38
+				}
+			},
+			{
+				"type": "spritesheet",
+				"key": "howtoplay-over",
+				"url": "/public/assets/howtoplay_over.png",
+				"frameConfig": {
+					"frameWidth": 42,
+					"frameHeight": 38
+				}
 			}
 		]
 	}

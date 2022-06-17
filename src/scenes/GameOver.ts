@@ -1,32 +1,32 @@
 import Phaser from "phaser";
 import Overview from "../objects/Overview";
-import OverLayInit from "../objects/OverLayInit";
+import ScoreBoard from "../objects/ScoreBoard";
 import Header from "../objects/Header";
-export default class GameInit extends Phaser.Scene {
-	header!: Header;
+
+export default class GameOver extends Phaser.Scene {
 	overview!: Overview;
-	overlay!: OverLayInit;
+	header!: Header;
+	scoreboard!: ScoreBoard;
 	constructor() {
 		super({
-			key: "GameInit",
+			key: "GameOver",
 		});
 	}
-	init(): void {
-		this.registry.set("score", 0);
-	}
+	init(): void {}
 	preload(): void {
 		this.load.pack("gamePack", "/public/assets/pack.json", "gamePack");
 	}
-	create(): void {
-		// Overview
+	create(data: object): void {
 		this.overview = new Overview(this);
-		// OverLay
-		this.overlay = new OverLayInit(this);
-		// header
+		this.scoreboard = new ScoreBoard(this);
 		this.header = new Header(this);
-		// score
 		this.add
-			.text(1700, 100, `Score: ${this.registry.get("score")}`)
+			.text(1700, 100, `score: ${data.score}`)
+			.setDepth(6)
+			.setFontSize(30)
+			.setFontStyle("bold");
+		this.add
+			.text(870, 420, `${data.score}`)
 			.setDepth(6)
 			.setFontSize(30)
 			.setFontStyle("bold");

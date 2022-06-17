@@ -42,22 +42,14 @@ export default class Dino {
 		if (!this.isCollider) {
 			this.dino.x -= 1;
 		}
-
-		console.log(`--> ${this.isCollider}`);
 		if (this.leftKey.isDown) {
-			if (!this.isCollider) {
-				this.dino.x -= 4;
-			} else {
-				this.isCollider = false;
-			}
+			this.dino.x -= 4;
 		} else if (this.rightKey.isDown) {
-			if (!this.isCollider) {
-				this.dino.x += 4;
-			} else {
-				this.isCollider = false;
-			}
+			this.dino.x += 4;
 		} else if (this.jumpKey.isDown) {
-			this.dino.setVelocityY(-300);
+			if(this.dino.y > 600) {
+				this.dino.setVelocityY(-300);
+			}
 			if (this.dino.texture.key === "dino") {
 				this.dino.setTexture("dino-ducking");
 				this.dino.anims.play("sit", true);

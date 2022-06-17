@@ -1,13 +1,13 @@
 import "phaser";
 import GameInit from "./scenes/GameInit";
 import GameScene from "./scenes/GameScene";
-
+import GameOver from "./scenes/GameOver";
 
 const config: Phaser.Types.Core.GameConfig = {
 	title: "Cryptal Run",
 	width: 1900,
 	height: 900,
-	scene: [GameInit,GameScene],
+	scene: [GameInit, GameScene, GameOver],
 	parent: "game",
 	input: {
 		keyboard: true,
