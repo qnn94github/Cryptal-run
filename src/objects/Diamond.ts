@@ -6,7 +6,7 @@ export default class Diamond {
 
 	constructor(scene: Phaser.Scene) {
 		this.diamond = scene.physics.add.sprite(1900, 0, "diamond");
-		this.diamond.setY(Phaser.Math.Between(200, 600));
+		this.diamond.setY(Phaser.Math.Between(400, 600));
 		this.diamond.body.allowGravity = false;
 	}
 	create(): void {
@@ -21,7 +21,7 @@ export default class Diamond {
 		this.diamond.anims.play("swing", true);
 	}
 	update(): void {
-		this.diamond.x -= 1;
+		this.diamond.x -= 5;
         if(this.diamond.x <= this.diamond.width) {
             this.diamond.destroy();
         }

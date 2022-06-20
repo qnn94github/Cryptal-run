@@ -2,11 +2,13 @@ import Phaser from "phaser";
 import Overview from "../objects/Overview";
 import ScoreBoard from "../objects/ScoreBoard";
 import Header from "../objects/Header";
+import MusicBtn from "../objects/MusicBtn";
 
 export default class GameOver extends Phaser.Scene {
 	overview!: Overview;
 	header!: Header;
 	scoreboard!: ScoreBoard;
+	musicBtn!: MusicBtn;
 	constructor() {
 		super({
 			key: "GameOver",
@@ -17,6 +19,8 @@ export default class GameOver extends Phaser.Scene {
 		this.load.pack("gamePack", "/public/assets/pack.json", "gamePack");
 	}
 	create(data: object): void {
+		// MusicBtn
+		this.musicBtn = new MusicBtn(this);
 		this.overview = new Overview(this);
 		this.scoreboard = new ScoreBoard(this);
 		this.header = new Header(this);

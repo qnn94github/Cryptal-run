@@ -6,8 +6,10 @@ export default class Dino {
 	leftKey!: Phaser.Input.Keyboard.Key;
 	rightKey!: Phaser.Input.Keyboard.Key;
 	isCollider!: boolean;
-
+	jumpSound !: Phaser.Sound.BaseSound;
+	
 	constructor(scene: Phaser.Scene) {
+		this.jumpSound = scene.sound.add('jump');
 		// Phisical
 		this.dino = scene.physics.add.sprite(100, 100, "dino");
 		// Input
@@ -48,7 +50,8 @@ export default class Dino {
 			this.dino.x += 4;
 		} else if (this.jumpKey.isDown) {
 			if(this.dino.y > 600) {
-				this.dino.setVelocityY(-300);
+				this.dino.setVelocityY(-350);
+				this.jumpSound.play();
 			}
 			if (this.dino.texture.key === "dino") {
 				this.dino.setTexture("dino-ducking");
