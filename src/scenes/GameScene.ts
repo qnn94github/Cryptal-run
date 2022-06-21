@@ -21,7 +21,12 @@ export default class GameScene extends Phaser.Scene {
 	scoreText!: Phaser.GameObjects.Text;
 	musicBtn!: MusicBtn;
 	meatSound!: Phaser.Sound.BaseSound;
-	textArray: Array<string> = ["good", "perfect", "excilent"];
+	numberArray: Array<number> = [5, 10, 15];
+	textArray: Array<string> = [
+		`Good + ${this.numberArray[0]}`,
+		`Perfect + ${this.numberArray[1]}`,
+		`Excellent + ${this.numberArray[2]}`,
+	];
 	constructor() {
 		super({
 			key: "GameScene",
@@ -91,7 +96,9 @@ export default class GameScene extends Phaser.Scene {
 			this.diamonds[0].getDiamond(),
 			this.dino.getDino(),
 			() => {
-				const randomText = this.textArray[Math.floor(Math.random() * 3)];
+				this.diamonds[0].getDiamond().destroy();
+				const randomIndex = Math.floor(Math.random() * 3);
+				const randomText = this.textArray[randomIndex];
 				const diamondText = this.add
 					.text(
 						this.diamonds[0].getDiamond().x,
@@ -108,8 +115,7 @@ export default class GameScene extends Phaser.Scene {
 					diamondText.destroy();
 				}, 1000);
 				this.meatSound.play();
-				this.registry.values.score += 20;
-				this.diamonds[0].getDiamond().destroy();
+				this.registry.values.score += this.numberArray[randomIndex];
 			}
 		);
 	}
@@ -137,6 +143,7 @@ export default class GameScene extends Phaser.Scene {
 				this.dino.getDino(),
 				this.cactus[this.cactusLength - 1].getCactus(),
 				() => {
+					console.log(this.cactus, this.diamonds, this.pteras);
 					this.scene.start("GameOver", {
 						score: this.registry.values.score,
 					});
@@ -146,6 +153,12 @@ export default class GameScene extends Phaser.Scene {
 		for (let i = 0; i < this.cactusLength; i++) {
 			this.cactus[i].update();
 		}
+		this.cactus.forEach((cactu) => {
+			if (cactu.getCactus().x < 0) {
+				this.cactus.splice(this.cactus.indexOf(cactu), 1);
+				this.cactusLength = this.cactus.length;
+			}
+		});
 		// Ptera
 		if (
 			number === "0.724" ||
@@ -169,10 +182,14 @@ export default class GameScene extends Phaser.Scene {
 		for (let i = 0; i < this.pterasLength; i++) {
 			this.pteras[i].update();
 		}
+		this.pteras.forEach((ptera) => {
+			if (ptera.getPtera().x < 0) {
+				this.pteras.splice(this.pteras.indexOf(ptera), 1);
+				this.pterasLength = this.pteras.length;
+			}
+		});
 		// Diamond
-		for (let i = 0; i < this.diamondsLength; i++) {
-			this.diamonds[i].update();
-		}
+
 		if (
 			number === "0.724" ||
 			this.diamonds[this.diamondsLength - 1].getDiamond().x <
@@ -186,14 +203,20 @@ export default class GameScene extends Phaser.Scene {
 				this.diamonds[this.diamondsLength - 1].getDiamond(),
 				this.dino.getDino(),
 				() => {
-					const randomText = this.textArray[Math.floor(Math.random() * 3)];
+					console.log(
+						this.diamonds[this.diamondsLength - 1].getDiamond().destroy(),
+						1
+					);
+					this.diamonds[this.diamondsLength - 1].getDiamond().destroy();
+					const randomIndex = Math.floor(Math.random() * 3);
+					const randomText = this.textArray[randomIndex];
 					const diamondText = this.add
 						.text(
 							this.diamonds[this.diamondsLength - 1].getDiamond().x,
 							this.diamonds[this.diamondsLength - 1].getDiamond().y,
 							randomText,
 							{
-								fontSize: "30px",
+								fontSize: "50px",
 								color: "#ffffff",
 							}
 						)
@@ -203,12 +226,19 @@ export default class GameScene extends Phaser.Scene {
 						diamondText.destroy();
 					}, 1000);
 					this.meatSound.play();
-					this.registry.values.score += 20;
-					this.diamonds[this.diamondsLength - 1].getDiamond().destroy();
+					this.registry.values.score += this.numberArray[randomIndex];
 				}
 			);
 		}
-
+		for (let i = 0; i < this.diamondsLength; i++) {
+			this.diamonds[i].update();
+		}
+		this.diamonds.forEach((diamond) => {
+			if (diamond.getDiamond().x < 0) {
+				this.diamonds.splice(this.diamonds.indexOf(diamond), 1);
+				this.diamondsLength = this.diamonds.length;
+			}
+		});
 		this.scoreText.setText(`Score: ${this.registry.values.score}`);
 	}
 }

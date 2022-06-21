@@ -12,7 +12,7 @@ export default class ScoreBoard {
 			.setDepth(5)
 			.setInteractive()
 			.addListener("pointerdown", () => {
-				scene.scene.start("GameInit");
+				window.location.reload();
 			});
 		this.howtoplayBtn = scene.add
 			.sprite(1030, 540, "howtoplay-over")
