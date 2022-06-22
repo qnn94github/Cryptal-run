@@ -5,12 +5,12 @@ export default class OverLayInit {
 		
 		scene.add.image(300, 300, "pc-guide").setDepth(6);
 		scene.add
-			.text(700, 200, "Cryptal Run")
+			.text(750, 200, "Cryptal Run")
 			.setDepth(6)
 			.setFontSize(50)
 			.setFontStyle("bold");
 		scene.add
-			.image(850, 350, "play")
+			.image(900, 350, "play")
 			.setDepth(6)
 			.setInteractive()
 			.addListener("pointerdown", () => {

@@ -5,8 +5,11 @@ export default class Diamond {
 	diamond: Phaser.Physics.Arcade.Sprite;
 
 	constructor(scene: Phaser.Scene) {
-		this.diamond = scene.physics.add.sprite(1900, 0, "diamond");
-		this.diamond.setY(Phaser.Math.Between(400, 600));
+		this.diamond = scene.physics.add.sprite(
+			1900,
+			Phaser.Math.Between(450, 500),
+			"diamond"
+		);
 		this.diamond.body.allowGravity = false;
 	}
 	create(): void {
@@ -21,10 +24,10 @@ export default class Diamond {
 		this.diamond.anims.play("swing", true);
 	}
 	update(): void {
-		this.diamond.x -= 5;
-        if(this.diamond.x <= this.diamond.width) {
-            this.diamond.destroy();
-        }
+		this.diamond.x -= 2;
+		if (this.diamond.x <= this.diamond.width) {
+			this.diamond.destroy();
+		}
 	}
 	getDiamond(): Phaser.Physics.Arcade.Sprite {
 		return this.diamond;

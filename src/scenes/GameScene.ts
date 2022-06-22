@@ -37,12 +37,14 @@ export default class GameScene extends Phaser.Scene {
 	}
 	preload(): void {
 		this.load.pack("gamePack", "/public/assets/pack.json", "gamePack");
+		this.load.audio("mainTheme", "/public/assets/sound/mainTheme.ogg");
 		this.load.audio("jump", "/public/assets/sound/jump.mp3");
 		this.load.audio("meatSound", "/public/assets/sound/meatSound.ogg");
 	}
 	create(): void {
 		// MusicBtn
 		this.musicBtn = new MusicBtn(this);
+		this.musicBtn.soundMain.play()
 		this.meatSound = this.sound.add("meatSound");
 		// Overview
 		this.overview = new Overview(this);
@@ -68,9 +70,7 @@ export default class GameScene extends Phaser.Scene {
 			this.dino.getDino(),
 			this.cactus[0].getCactus(),
 			() => {
-				this.scene.start("GameOver", {
-					score: this.registry.values.score,
-				});
+				this.dino.isDead = true;
 			}
 		);
 
@@ -82,9 +82,7 @@ export default class GameScene extends Phaser.Scene {
 			this.pteras[0].getPtera(),
 			this.dino.getDino(),
 			() => {
-				this.scene.start("GameOver", {
-					score: this.registry.values.score,
-				});
+				this.dino.isDead = true;
 			}
 		);
 
@@ -143,17 +141,12 @@ export default class GameScene extends Phaser.Scene {
 				this.dino.getDino(),
 				this.cactus[this.cactusLength - 1].getCactus(),
 				() => {
-					console.log(this.cactus, this.diamonds, this.pteras);
-					this.scene.start("GameOver", {
-						score: this.registry.values.score,
-					});
+					this.dino.isDead = true;
 				}
 			);
 		}
-		for (let i = 0; i < this.cactusLength; i++) {
-			this.cactus[i].update();
-		}
 		this.cactus.forEach((cactu) => {
+			this.cactus[this.cactus.indexOf(cactu)].update();
 			if (cactu.getCactus().x < 0) {
 				this.cactus.splice(this.cactus.indexOf(cactu), 1);
 				this.cactusLength = this.cactus.length;
@@ -173,23 +166,18 @@ export default class GameScene extends Phaser.Scene {
 				this.pteras[this.pterasLength - 1].getPtera(),
 				this.dino.getDino(),
 				() => {
-					this.scene.start("GameOver", {
-						score: this.registry.values.score,
-					});
+					this.dino.isDead = true;
 				}
 			);
 		}
-		for (let i = 0; i < this.pterasLength; i++) {
-			this.pteras[i].update();
-		}
 		this.pteras.forEach((ptera) => {
+			this.pteras[this.pteras.indexOf(ptera)].update();
 			if (ptera.getPtera().x < 0) {
 				this.pteras.splice(this.pteras.indexOf(ptera), 1);
 				this.pterasLength = this.pteras.length;
 			}
 		});
 		// Diamond
-
 		if (
 			number === "0.724" ||
 			this.diamonds[this.diamondsLength - 1].getDiamond().x <
@@ -203,10 +191,6 @@ export default class GameScene extends Phaser.Scene {
 				this.diamonds[this.diamondsLength - 1].getDiamond(),
 				this.dino.getDino(),
 				() => {
-					console.log(
-						this.diamonds[this.diamondsLength - 1].getDiamond().destroy(),
-						1
-					);
 					this.diamonds[this.diamondsLength - 1].getDiamond().destroy();
 					const randomIndex = Math.floor(Math.random() * 3);
 					const randomText = this.textArray[randomIndex];
@@ -230,15 +214,22 @@ export default class GameScene extends Phaser.Scene {
 				}
 			);
 		}
-		for (let i = 0; i < this.diamondsLength; i++) {
-			this.diamonds[i].update();
-		}
 		this.diamonds.forEach((diamond) => {
+			this.diamonds[this.diamonds.indexOf(diamond)].update();
 			if (diamond.getDiamond().x < 0) {
 				this.diamonds.splice(this.diamonds.indexOf(diamond), 1);
 				this.diamondsLength = this.diamonds.length;
 			}
 		});
 		this.scoreText.setText(`Score: ${this.registry.values.score}`);
+		if (this.dino.isDead) {
+			this.cactus = [];
+			this.pteras = [];
+			this.diamonds = [];
+			this.musicBtn.soundMain.pause()
+			this.scene.start("GameOver", {
+				score: this.registry.values.score,
+			});
+		}
 	}
 }

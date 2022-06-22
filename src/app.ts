@@ -5,8 +5,10 @@ import GameOver from "./scenes/GameOver";
 
 const config: Phaser.Types.Core.GameConfig = {
 	title: "Cryptal Run",
-	width: 1900,
-	height: 900,
+	scale: {
+		width: 1900,
+		height: 930,
+	},
 	scene: [GameInit, GameScene, GameOver],
 	parent: "game",
 	input: {
@@ -15,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
 	physics: {
 		default: "arcade",
 		arcade: {
-			gravity: { y: 300 },
+			gravity: { y: 350 },
 			debug: false,
 		},
 	},
