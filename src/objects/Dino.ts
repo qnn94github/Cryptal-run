@@ -18,11 +18,6 @@ export default class Dino {
 		this.sitKey = scene.input.keyboard.addKey("s");
 		this.leftKey = scene.input.keyboard.addKey("a");
 		this.rightKey = scene.input.keyboard.addKey("d");
-		scene.game.events.on("setMute", (data: boolean) => {
-				if(data) {
-					this.jumpSound.shutdown
-				}
-		});
 	}
 	create(): void {
 		this.dino

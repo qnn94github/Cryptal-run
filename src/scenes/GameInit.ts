@@ -14,7 +14,6 @@ export default class GameInit extends Phaser.Scene {
 		});
 	}
 	init(): void {
-		this.registry.set("score", 0);
 		this.registry.set("sound",false)
 	}
 	preload(): void {
@@ -34,7 +33,7 @@ export default class GameInit extends Phaser.Scene {
 		});
 		// score
 		this.add
-			.text(1700, 100, `Score: ${this.registry.get("score")}`)
+			.text(1700, 100, `Score: 0`)
 			.setDepth(6)
 			.setFontSize(30)
 			.setFontStyle("bold");

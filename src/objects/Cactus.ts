@@ -7,7 +7,11 @@ export default class Cactus {
 	cactus!: Phaser.Physics.Arcade.Image;
 
 	constructor(scene: Phaser.Scene) {
-		this.cactus = scene.physics.add.image(1900, 600, this.cactusTypeRandom);
+		this.cactus = scene.physics.add.image(
+			Phaser.Math.Between(1900, 2200),
+			600,
+			this.cactusTypeRandom
+		);
 	}
 
 	create(): void {

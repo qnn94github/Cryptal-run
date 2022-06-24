@@ -1,4 +1,3 @@
-import { create } from "domain";
 import Phaser from "phaser";
 
 export default class Overview {
@@ -12,7 +11,6 @@ export default class Overview {
 	overViewFourth!: Phaser.GameObjects.TileSprite;
 	dayTimeRandom: string =
 		this.daytime[Math.floor(Math.random() * this.daytime.length)];
-		
 	constructor(scene: Phaser.Scene) {
 		const overlay = scene.add
 			.image(950, 450, `${this.dayTimeRandom}-overlay`)
