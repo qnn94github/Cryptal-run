@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
 	diamondsLength!: number;
 	scoreText!: Phaser.GameObjects.Text;
 	musicBtn!: MusicBtn;
+	themeSound!: Phaser.Sound.BaseSound;
 	meatSound!: Phaser.Sound.BaseSound;
 	numberArray: Array<number> = [5, 10, 15];
 	textArray: Array<string> = [
@@ -38,14 +39,10 @@ export default class GameScene extends Phaser.Scene {
 	preload(): void {
 		this.load.pack("gamePack", "/public/assets/pack.json", "gamePack");
 		this.load.audio("mainTheme", "/public/assets/sound/mainTheme.ogg");
-		this.load.audio("jump", "/public/assets/sound/jump.mp3");
 		this.load.audio("meatSound", "/public/assets/sound/meatSound.ogg");
+		this.load.audio("jumpSound", "/public/assets/sound/jump.mp3");
 	}
-	create(): void {
-		// MusicBtn
-		this.musicBtn = new MusicBtn(this);
-		this.musicBtn.soundMain.play()
-		this.meatSound = this.sound.add("meatSound");
+	create(data: object): void {
 		// Overview
 		this.overview = new Overview(this);
 		this.header = new Header(this);
@@ -85,7 +82,26 @@ export default class GameScene extends Phaser.Scene {
 				this.dino.isDead = true;
 			}
 		);
-
+		// MusicBtn
+		this.musicBtn = new MusicBtn(this);
+		this.themeSound = this.sound.add("mainTheme");
+		this.meatSound = this.sound.add("meatSound");
+		if (data.sound) {
+			this.sound.mute = true;
+			this.musicBtn.isMute = true;
+			this.musicBtn.soundSprite.setFrame(1);
+		} else {
+			this.themeSound.play();
+			this.musicBtn.isMute = false;
+			this.musicBtn.soundSprite.setFrame(0);
+		}
+		this.game.events.on("setMute", (data: boolean) => {
+			if (data) {
+				this.sound.mute = true;
+			} else {
+				this.sound.mute = false;
+			}
+		});
 		// Diamond
 		this.diamonds.push(new Diamond(this));
 		this.diamondsLength = this.diamonds.length;
@@ -187,34 +203,38 @@ export default class GameScene extends Phaser.Scene {
 			this.diamonds.push(new Diamond(this));
 			this.diamondsLength = this.diamonds.length;
 			this.diamonds[this.diamondsLength - 1].create();
-			this.physics.add.collider(
-				this.diamonds[this.diamondsLength - 1].getDiamond(),
-				this.dino.getDino(),
-				() => {
-					this.diamonds[this.diamondsLength - 1].getDiamond().destroy();
-					const randomIndex = Math.floor(Math.random() * 3);
-					const randomText = this.textArray[randomIndex];
-					const diamondText = this.add
-						.text(
-							this.diamonds[this.diamondsLength - 1].getDiamond().x,
-							this.diamonds[this.diamondsLength - 1].getDiamond().y,
-							randomText,
-							{
-								fontSize: "50px",
-								color: "#ffffff",
-							}
-						)
-						.setDepth(5)
-						.setFontStyle("bold");
-					setTimeout(() => {
-						diamondText.destroy();
-					}, 1000);
-					this.meatSound.play();
-					this.registry.values.score += this.numberArray[randomIndex];
-				}
-			);
 		}
 		this.diamonds.forEach((diamond) => {
+			if (this.diamondsLength >= 1) {
+				this.physics.add.collider(
+					this.diamonds[this.diamonds.indexOf(diamond)].getDiamond(),
+					this.dino.getDino(),
+					() => {
+						this.diamonds[this.diamonds.indexOf(diamond)]
+							.getDiamond()
+							.destroy();
+						const randomIndex = Math.floor(Math.random() * 3);
+						const randomText = this.textArray[randomIndex];
+						const diamondText = this.add
+							.text(
+								this.diamonds[this.diamonds.indexOf(diamond)].getDiamond().x,
+								this.diamonds[this.diamonds.indexOf(diamond)].getDiamond().y,
+								randomText,
+								{
+									fontSize: "50px",
+									color: "#ffffff",
+								}
+							)
+							.setDepth(5)
+							.setFontStyle("bold");
+						setTimeout(() => {
+							diamondText.destroy();
+						}, 1000);
+						this.meatSound.play();
+						this.registry.values.score += this.numberArray[randomIndex];
+					}
+				);
+			}
 			this.diamonds[this.diamonds.indexOf(diamond)].update();
 			if (diamond.getDiamond().x < 0) {
 				this.diamonds.splice(this.diamonds.indexOf(diamond), 1);
@@ -226,9 +246,10 @@ export default class GameScene extends Phaser.Scene {
 			this.cactus = [];
 			this.pteras = [];
 			this.diamonds = [];
-			this.musicBtn.soundMain.pause()
+			this.themeSound.pause();
 			this.scene.start("GameOver", {
 				score: this.registry.values.score,
+				sound: this.registry.values.sound,
 			});
 		}
 	}

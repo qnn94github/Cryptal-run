@@ -8,8 +8,9 @@ export default class Dino {
 	isCollider!: boolean;
 	jumpSound!: Phaser.Sound.BaseSound;
 	isDead : boolean = false;
+
 	constructor(scene: Phaser.Scene) {
-		this.jumpSound = scene.sound.add("jump");
+		this.jumpSound = scene.sound.add("jumpSound");
 		// Phisical
 		this.dino = scene.physics.add.sprite(100, 100, "dino");
 		// Input
@@ -17,6 +18,11 @@ export default class Dino {
 		this.sitKey = scene.input.keyboard.addKey("s");
 		this.leftKey = scene.input.keyboard.addKey("a");
 		this.rightKey = scene.input.keyboard.addKey("d");
+		scene.game.events.on("setMute", (data: boolean) => {
+				if(data) {
+					this.jumpSound.shutdown
+				}
+		});
 	}
 	create(): void {
 		this.dino
@@ -38,18 +44,19 @@ export default class Dino {
 			frameRate: 15,
 		});
 		this.dino.anims.play("walk", true);
+		
 	}
 	update(): void {
 		if (this.leftKey.isDown) {
-			this.dino.x -= 2;
+			this.dino.x -= 3;
 		} else if (this.rightKey.isDown) {
 			this.dino.x += 4;
 		} else if (this.jumpKey.isDown) {
 			if (this.dino.y > 600) {
-				this.dino.setVelocityY(-320);
+				this.dino.setVelocityY(-330);
 				this.jumpSound.play();
 				if (this.sitKey.isDown) {
-					this.dino.y += 2;
+					this.dino.y += 3;
 				}
 			}
 			if (this.dino.texture.key === "dino") {

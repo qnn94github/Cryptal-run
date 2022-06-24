@@ -22,7 +22,7 @@ export default class Ptera {
 		this.ptera.anims.play("swing", true);
 	}
 	update(): void {
-		this.ptera.x -= 6;
+		this.ptera.x -= 5;
 		if (this.ptera.x <= this.ptera.width) {
 			this.ptera.destroy();
 		}

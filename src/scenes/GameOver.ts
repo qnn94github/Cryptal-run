@@ -21,6 +21,15 @@ export default class GameOver extends Phaser.Scene {
 	create(data: object): void {
 		// MusicBtn
 		this.musicBtn = new MusicBtn(this);
+		if (data.sound) {
+			if (!data.sound) {
+				this.musicBtn.isMute = false;
+				this.musicBtn.soundSprite.setFrame(0);
+			} else {
+				this.musicBtn.isMute = true;
+				this.musicBtn.soundSprite.setFrame(1);
+			}
+		}
 		this.overview = new Overview(this);
 		this.scoreboard = new ScoreBoard(this);
 		this.header = new Header(this);

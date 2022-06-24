@@ -15,10 +15,10 @@ export default class GameInit extends Phaser.Scene {
 	}
 	init(): void {
 		this.registry.set("score", 0);
+		this.registry.set("sound",false)
 	}
 	preload(): void {
 		this.load.pack("gamePack", "/public/assets/pack.json", "gamePack");
-		this.load.audio("mainTheme", "/public/assets/sound/mainTheme.ogg");
 	}
 	create(): void {
 		// Overview
@@ -29,6 +29,9 @@ export default class GameInit extends Phaser.Scene {
 		this.header = new Header(this);
 		// MusicBtn
 		this.musicBtn = new MusicBtn(this);
+		this.game.events.on("setMute", (data: boolean) => {
+			this.registry.values.sound = data
+		});
 		// score
 		this.add
 			.text(1700, 100, `Score: ${this.registry.get("score")}`)

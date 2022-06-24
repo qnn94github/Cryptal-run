@@ -14,7 +14,7 @@ export default class Cactus {
 		this.cactus.setDepth(5).setCollideWorldBounds(true);
 	}
 	update(): void {
-		this.cactus.x -= 4;
+		this.cactus.x -= 2;
 		if (this.cactus.x <= this.cactus.width) {
 			this.cactus.destroy();
 		}
